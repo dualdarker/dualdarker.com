@@ -1,13 +1,234 @@
 <!DOCTYPE html>
-<html lang="{{ $.Site.LanguageCode | default "en" }}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} — {{ end }}{{ .Site.Title }}{{ end }}</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    {{ hugo.Generator }}
-  </head>
-  <body>
-    {{ .Content }}
-  </body>
+<html class="no-js" lang="{{ $.Site.LanguageCode | default "en" }}">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} — {{ end }}{{ .Site.Title }}{{ end }}</title>
+		<meta name="viewport" content="width=device-width,minimum-scale=1">
+{{ template "_internal/twitter_cards.html" . }}
+{{ template "_internal/opengraph.html" . }}
+		{{ hugo.Generator }}
+
+		<style>
+			body {
+				padding: 0;
+				border: 0;
+				margin: 0;
+				overflow: hidden;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100vw;
+				height: 100vh;
+			}
+			.dowell {
+				position: relative;
+				padding: .5rem 1rem;
+				background-color: #000;
+				color: #fff;
+			}
+			a {
+				color: #fff;
+				text-decoration: none;
+			}
+			a:visited {
+				color: #fff;
+			}
+			a.insta {
+				padding-left: .25rem;
+				border-left: .25rem solid #d34311;
+			}
+			a.twitter {
+				border-bottom: .25rem solid #d34311;
+			}
+			a.email {
+				padding-top: .125rem;
+				border-top: .25rem solid #d34311;
+			}
+			a:hover {
+				border-color: #fff;
+			}
+			#dual--canvas {
+				position: absolute;
+				top: 0; left: 0;
+				box-sizing: border-box;
+				border: 1px #ccc solid;
+				width: calc(100vw - 2rem);
+				height: calc(100vh - 2rem);
+				margin: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		{{ .Content }}
+
+		<div id="container">
+			<canvas id="dual--canvas" width="1000" height="1000"></canvas>
+		</div>
+
+		<p class="dowell"><a class="insta" href="https://www.instagram.com/duuldarker/">Do</a>, <a class="twitter" href="https://twitter.com/dualdarker">Well</a>, <a class="email" href="mailto:dowell%20@%20dualdarker%20%20dot%20%20ya'know?Subject=you%20can%20figure%20the%20address%20out,%20right?">Darker</a></p>
+
+		<script type="text/javascript" src="js/dual-functions.js"></script>
+
+		<script>
+			document.body.style.background = randRGBa('grey',1);
+
+			gAngle = Math.random()*30;
+			gDrawSpeed = 1; // how fast to draw per frame
+
+			window.onload = function() {
+				var t_canvas = document.getElementById("dual--canvas");
+				var ctx = t_canvas.getContext('2d');
+				var ctx_w = window.innerWidth*2;
+				var ctx_h = window.innerHeight*2;
+				ctx.canvas.width = ctx_w;
+				ctx.canvas.height = ctx_h;
+				var ctx_repeat_pad = 0; // padding needs to be larger than size of object... if wanted real tiling you'd have to do dual drawing in this padding area
+				var ctx_w_repeat = ctx_w - ctx_repeat_pad;
+				var ctx_h_repeat = ctx_h - ctx_repeat_pad;
+
+				var circles = new Array();
+				var positions = new Array(ctx_h*ctx_w).fill(0);
+				var gSaveCounter = 0;
+
+				var requestAnimationFrame = window.requestAnimationFrame ||
+											window.mozRequestAnimationFrame ||
+											window.webkitRequestAnimationFrame ||
+											window.msRequestAnimationFrame;
+
+				function Circle(aDrawDistance, aLogDistance, aRadius, aX, aY, aAngle, aColor, aPastBuffer) {
+					this.pDrawDistance = aDrawDistance;
+					this.pLogDistance = aLogDistance;
+					this.pRadius = aRadius;
+					this.pX = aX;
+					this.pY = aY;
+					this.pAngle = aAngle;
+					this.pColor = aColor;
+
+					if (aPastBuffer == false) {
+						this.pPastBuffer = new Array(Math.round(this.pDrawDistance/this.pLogDistance)*3).fill(0);
+					} else {
+						this.pPastBuffer = aPastBuffer;
+					}
+					this.pCrossingBuffer = new Array(2).fill(0);
+				}
+
+				Circle.prototype.update = function () {
+				//
+				// what's the next positon
+					// save the old position
+					var tPrevX = this.pX;
+					var tPrevY = this.pY;
+					var tAngleChange = ((Math.PI*2)/360)*gAngle;
+					this.pAngle += ( ( Math.random()*tAngleChange ) - ( tAngleChange/2 ) );
+					this.pX = xOnCircle(this.pX, this.pY, this.pDrawDistance, this.pAngle);
+					this.pY = yOnCircle(this.pX, this.pY, this.pDrawDistance, this.pAngle);
+					//
+					// what happens at edge of canvas
+					if ( this.pX < ctx_repeat_pad ) {
+						this.pX = ctx_w_repeat;
+					} else if ( this.pX > ctx_w_repeat ) {
+						this.pX = ctx_repeat_pad;
+					}
+					if ( this.pY < ctx_repeat_pad ) {
+						this.pY = ctx_h_repeat;
+					} else if ( this.pY > ctx_h_repeat ) {
+						this.pY = ctx_repeat_pad;
+					}
+					// END what happens at edge of canvas
+					//
+					//
+					// save the line positions & recent positions buffer
+					this.tChangeFlag = false;
+					for (var i=1; i<=this.pDrawDistance/this.pLogDistance; i++) {
+						var tLogX = xOnCircle(tPrevX, tPrevY, i*this.pLogDistance, this.pAngle);
+						var tLogY = yOnCircle(tPrevX, tPrevY, i*this.pLogDistance, this.pAngle);
+						if ( tLogX < ctx_repeat_pad ) {
+							tLogX = ctx_w_repeat;
+						} else if ( tLogX > ctx_w_repeat ) {
+							tLogX = ctx_repeat_pad;
+						}
+						if ( tLogY < ctx_repeat_pad ) {
+							tLogY = ctx_h_repeat;
+						} else if ( tLogY > ctx_h_repeat ) {
+							tLogY = ctx_repeat_pad;
+						}
+						var tCanvasIndex = (Math.round(tLogY) * ctx_w) + Math.round(tLogX);
+						if (this.pPastBuffer.includes(tCanvasIndex) == false) {
+							if (positions[tCanvasIndex] == 1) {
+								this.tChangeFlag = true;
+								this.pCrossingBuffer[0] = 1;
+							}
+						}
+						positions[tCanvasIndex] = 1;
+						this.pPastBuffer.push(tCanvasIndex);
+						this.pPastBuffer.shift();
+					}
+					// END save the line positions & recent positions buffer
+					//
+				// END what's the next positon
+				//
+
+				//
+				// draw the circle
+					//
+					// check if "crossing" the line
+					if (this.pCrossingBuffer[0] == 1) {
+						if (this.pCrossingBuffer[1] == 0) {
+							this.pColor = randRGBa('color',1);
+						}
+						this.pCrossingBuffer.unshift(1);
+						this.pCrossingBuffer.pop();
+						if (this.pCrossingBuffer[this.pCrossingBuffer.length-1] != 0) {
+							this.pCrossingBuffer.fill(0);
+						}
+					}
+					ctx.fillStyle = this.pColor;
+					// END check if "crossing" the line
+					//
+					ctx.beginPath();
+					ctx.arc(this.pX, this.pY,
+								this.pRadius,
+								0,
+								Math.PI * 2,
+								false);
+					ctx.closePath();
+					ctx.fill();
+				// END draw the circle
+				//
+				}; // END Circle.prototype.update
+
+
+				function setupCircles(aNum) {
+					for (var i = 0; i < aNum; i++) {
+						// start position, directon, color are random
+						var tX = Math.round(ctx_repeat_pad + Math.random() * ctx_w_repeat);
+						var tY = Math.round(ctx_repeat_pad + Math.random() * ctx_h_repeat);
+						var tAngle = Math.random()*(Math.PI*2);
+						var tColor = randRGBa('color',1);
+						// draw distance is based on size?
+						var tRadius = 1.5*2;
+						var tDrawDistance = 1.5*2;
+						// logging distance is based on pixels
+						var tLogDistance = .1;
+						// create the circle object and add to objects array
+						var tCircle = new Circle(tDrawDistance, tLogDistance, tRadius, tX, tY, tAngle, tColor, false);
+						circles.push(tCircle);
+					}
+					drawAndUpdate();
+				}
+				setupCircles(1);
+
+				function drawAndUpdate() {
+					for (var i=0; i<gDrawSpeed; i++) {
+						for (var j = 0; j < circles.length; j++) {
+							circles[j].update();
+						}
+					}
+				requestAnimationFrame(drawAndUpdate);
+				}
+			};
+
+</script>
+	</body>
 </html>

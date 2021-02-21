@@ -2,3 +2,6 @@ baseURL = "https://www.dualdarker.com/"
 languageCode = "en-us"
 title = "Dewell Darker"
 theme = "dedarker"
+[params]
+  description = "Trying to process my thoughts through work"
+  images = ["img/2021_02_17-09_21_46-site.png"]
