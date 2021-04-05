@@ -1,7 +1,16 @@
 baseURL = "https://www.dualdarker.com/"
 languageCode = "en-us"
-title = "Dewell Darker"
+# 〰️➿➰🕳🔮🌑🌚
+title = "Dewell ➿ Darker"
 theme = "dedarker"
+
+# [permalinks]
+#	blog = "/:filename/"
+
 [params]
-  description = "Trying to process my thoughts through work"
-  images = ["img/2021_02_17-09_21_46-site.png"]
+	dateFormat = "2006 Jan 02"
+	description = "Trying to process my thoughts through work"
+	images = ["img/2021_02_17-09_21_46-site.png"]
+
+[markup.goldmark.renderer]
+	unsafe= true

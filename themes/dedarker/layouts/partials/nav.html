@@ -1,0 +1,17 @@
+<header class="header--main">
+	<nav class="nav--main">
+		<a class="nav--home" title="home" href="/">🏚<span class="sr-only">Home</span></a>
+		➰
+		{{ if .Site.GetPage "/slog" }}
+			<a class="nav--slog active" title="kinda like a blog" href="/slog/">Slog</a>
+		{{ else }}
+			<a class="nav--slog" title="kinda like a blog" href="/slog/">Slog</a>
+		{{ end }}
+	</nav>
+	<a class="nav--name" title="home" href="/">Dewell Darker</a>
+	<nav class="nav--social">
+		<a class="nav--twitter" title="twitter" href="https://twitter.com/dualdarker">🦆<span class="sr-only">twitter</span></a>
+		〰️
+		<a class="nav--insta" title="instagram" href="https://www.instagram.com/duuldarker/">🖼<span class="sr-only">instagram</span></a>
+	</nav>
+</header>

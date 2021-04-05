@@ -1,0 +1,121 @@
+body {
+	padding: 1rem;
+	border: 1px solid #666;
+	margin: 1rem;
+
+	background-color: #282828;
+	color: #d3d3d3;
+
+	font-family: sans-serif;
+	line-height: 1.4375;
+
+	main {
+		max-width: 680px;
+	}
+}
+
+a {
+	color: #d34311;
+	text-decoration: none;
+	transition: border .5s;
+
+	&:visited {
+		color: #bada55;
+	}
+	&:hover {
+		color: #ccc;
+		border-color: #fff;
+	}
+}
+.header--main {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: .5rem;
+	border-bottom: 1px solid #666;
+	nav {
+		&.nav--main {
+		}
+		&.nav--social {
+		}
+		a {
+			box-sizing: content-box;
+			padding-top: .375rem;
+			border-top: .25rem solid #423552;
+
+			&.active {
+				border-top: 0 solid #ccc;
+				padding-bottom: .375rem;
+				border-bottom: 1rem solid #d34311;
+			}
+			&:hover {
+				color: #999;
+				border-top: 5rem solid #ccc;
+			}
+			&.nav--twitter {
+				border-top: 0 solid #ccc;
+				padding-left: .375rem;
+				border-left: .25rem solid #423552;
+				&:hover {
+					border-left: 8rem solid #ccc;
+				}
+			}
+			&.nav--insta {
+				border-top: 0 solid #ccc;
+				padding-bottom: .375rem;
+				border-bottom: .25rem solid #423552;
+				&:hover {
+					border-bottom: 4rem solid #ccc;
+				}
+			}
+		}
+	}
+	.name {
+		font-family: serif;
+		font-size: 1.25rem;
+		line-height: 1;
+		display: inline-block;;
+		margin: -.0625rem .375rem 0;
+	}
+}
+.intro {
+	font-style: italic;
+	font-size: 1.125rem;
+	margin-top: -1rem;
+}
+.list {
+	margin-top: 2rem;
+}
+.list--item {
+	margin-bottom: 3rem;
+	h2 {
+		margin-bottom: .75rem;
+		a {
+			padding-bottom: .375rem;
+			border-bottom: .25rem solid #423552;
+			padding-right: .75rem;
+			border-right: .5rem solid #423552;
+
+			&:hover {
+				color: #999;
+				border-bottom: 5rem solid #64d455;
+				border-right: 7rem solid #d34311;
+			}
+		}
+	}
+}
+time {
+	color: #8A6FAC;
+}
+.tags {
+	margin-left: 1rem;
+}
+.tag {
+	font-size: .75rem;
+	padding-top: .0625rem;
+	border-top: .0625rem solid #666;
+
+	&:hover {
+		color: #999;
+		border-top: 3.75rem solid #d34311;
+	}
+}

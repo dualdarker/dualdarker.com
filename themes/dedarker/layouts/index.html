@@ -1,93 +1,32 @@
-<!DOCTYPE html>
-<html class="no-js" lang="{{ $.Site.LanguageCode | default "en" }}">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>{{ block "title" . }}{{ with .Params.Title }}{{ . }} — {{ end }}{{ .Site.Title }}{{ end }}</title>
-		<meta name="viewport" content="width=device-width,minimum-scale=1">
-{{ template "_internal/twitter_cards.html" . }}
-{{ template "_internal/opengraph.html" . }}
-		{{ hugo.Generator }}
-
-		<style>
-			body {
-				padding: 0;
-				border: 0;
-				margin: 0;
-				overflow: hidden;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 100vw;
-				height: 100vh;
-			}
-			.dowell {
-				position: relative;
-				padding: .5rem 1rem;
-				background-color: #000;
-				color: #fff;
-			}
-			a {
-				color: #fff;
-				text-decoration: none;
-				transition: border .5s;
-			}
-			a:visited {
-				color: #fff;
-			}
-			a.insta {
-				padding-left: .25rem;
-				border-left: .25rem solid #d34311;
-			}
-			a.twitter {
-				border-bottom: .25rem solid #d34311;
-			}
-			a.email {
-				padding-top: .125rem;
-				border-top: .25rem solid #d34311;
-			}
-			a:hover {
-				border-color: #fff;
-			}
-			a.insta:hover {
-				border-left: 3.25rem solid #d34311;
-			}
-			a.twitter:hover {
-				border-bottom: 1.75rem solid #d34311;
-			}
-			a.email:hover {
-				border-top: 10rem solid #d34311;
-			}
-			#dual--canvas {
-				position: absolute;
-				top: 0; left: 0;
-				box-sizing: border-box;
-				border: 1px #ccc solid;
-				width: calc(100vw - 2rem);
-				height: calc(100vh - 2rem);
-				margin: 1rem;
-			}
-		</style>
-	</head>
-	<body>
-		{{ .Content }}
-
+{{ define "main" }}
 		<div id="container">
 			<canvas id="dual--canvas" title="taking a line for a walk" width="1000" height="1000"></canvas>
 		</div>
 
 		<p class="dowell"><a class="insta" href="https://www.instagram.com/duuldarker/">Do</a>, <a class="twitter" href="https://twitter.com/dualdarker">Well</a>, <a class="email" href="mailto:dowell%20@%20dualdarker%20%20dot%20%20ya'know?Subject=you%20can%20figure%20the%20address%20out,%20right?">Darker</a></p>
+		<p class="slog"><a class="the_slog" href="/slog/">Slog</a></p>
 
 		<script type="text/javascript" src="js/dual-functions.js"></script>
 
 		<script>
-			document.body.style.background = randRGBa('grey',1);
+			var t_canvas = document.getElementById("dual--canvas");
+			var tRand = randRangeInt(0, 255);
+			var tBG = 'rgba('+tRand+','+tRand+','+tRand+',1)';
+			document.body.style.background = tBG;
+			if (tRand <= 128) {
+				t_canvas.style.border = '1px solid #ccc';
+			} else {
+				t_canvas.style.border = '1px solid #333';
+			}
 
-			gAngle = Math.random()*30;
-			gDrawSpeed = 1; // how fast to draw per frame
+			if (somePercentage(85)) {
+				var gAngle = Math.random()*10;
+			} else {
+				var gAngle = Math.random()*30;
+			}
+			var gDrawSpeed = 1; // how fast to draw per frame
 
 			window.onload = function() {
-				var t_canvas = document.getElementById("dual--canvas");
 				var ctx = t_canvas.getContext('2d');
 				var ctx_w = window.innerWidth*2;
 				var ctx_h = window.innerHeight*2;
@@ -240,5 +179,4 @@
 			};
 
 </script>
-	</body>
-</html>
+{{ end }}

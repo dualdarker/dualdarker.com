@@ -1,0 +1,24 @@
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,minimum-scale=1">
+
+	{{ $title := print .Title " 🌑 " .Site.Title }}
+	<title>{{ $title }}</title>
+
+	{{ if .IsHome }}
+		{{ $optionsHome := (dict "targetPath" "css/duul-home.css" "outputStyle" "compressed" "enableSourceMap" true "includePaths" (slice "node_modules/myscss")) }}
+		{{ $styleHome := resources.Get "sass/home.scss" | resources.ToCSS $optionsHome }}
+		<link rel="stylesheet" href="{{ $styleHome.Permalink }}">
+	{{ else }}
+		{{ $options := (dict "targetPath" "css/duul-style.css" "outputStyle" "compressed" "enableSourceMap" true "includePaths" (slice "node_modules/myscss")) }}
+		{{ $style := resources.Get "sass/main.scss" | resources.ToCSS $options }}
+		<link rel="stylesheet" href="{{ $style.Permalink }}">
+	{{ end }}
+
+	<meta name="description" content="{{ .Param "Description" }}">
+	{{ template "_internal/twitter_cards.html" . }}
+	{{ template "_internal/opengraph.html" . }}
+
+	{{ hugo.Generator }}
+</head>

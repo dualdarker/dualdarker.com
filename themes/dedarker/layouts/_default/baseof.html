@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ $.Site.LanguageCode | default "en-us" }}">
+	{{ partial "head.html" . }}
+	<body class="">
+	{{ if not .IsHome }}{{ partial "nav.html" . }}{{ end }}
+		<div class="container">
+			<main id="main">
+				{{ block "main" . }}{{ end }}
+			</main>
+		</div>
+
+	</body>
+</html>
