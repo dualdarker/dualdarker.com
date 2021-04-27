@@ -32,6 +32,17 @@ a {
 	justify-content: space-between;
 	padding-bottom: .5rem;
 	border-bottom: 1px solid #666;
+	a.nav--name {
+		border-top: 0 solid #ccc;
+		padding-left: 1.375rem;
+		border-left: 1.25rem solid #423552;
+		padding-right: .375rem;
+		border-right: .25rem solid #423552;
+		&:hover {
+			border-left: 3rem solid #ccc;
+			border-right: 5rem solid #ccc;
+		}
+	}
 	nav {
 		&.nav--main {
 		}
