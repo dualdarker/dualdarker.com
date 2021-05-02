@@ -4,6 +4,8 @@ sftp-config.json
 # *.sublime-project
 *.sublime-workspace
 __README.txt
+*/img/*
+*/img-sm/*
 
 # HUGO
 # Generated files by hugo
