@@ -1,7 +1,7 @@
 ---
 title: "Simply Start : Start Simply"
 date: 2020-07-28T08:36:14-04:00
-publishDate: 2021-04-04T13:43:14-04:00
+publishDate: 2021-02-04T13:43:14-04:00
 draft: false
 tags: ["gtd"]
 summary: "Where does one begin again?

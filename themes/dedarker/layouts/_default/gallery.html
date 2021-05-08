@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ $.Site.LanguageCode | default "en-us" }}">
+	{{ partial "head.html" . }}
+	<body class="gallery">
+	{{ if not .IsHome }}{{ partial "nav.html" . }}{{ end }}
+		<div class="container">
+			<main id="main">
+
+<h1>{{ .Title }}</h1>
+{{ .Content }}
+<!-- {{ partial "date-and-tags.html" . }}
+ -->
+<script
+	async
+	src="https://utteranc.es/client.js"
+	repo="dualdarker/utterances"
+	issue-term="title"
+	theme="github-dark"
+	crossorigin="anonymous"
+></script>
+			</main>
+		</div>
+
+	</body>
+</html>
