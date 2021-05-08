@@ -6,6 +6,8 @@ sftp-config.json
 __README.txt
 content/slog/*/img/*
 content/slog/*/img-sm/*
+content/slog/*/*/img/*
+content/slog/*/*/img-sm/*
 
 # HUGO
 # Generated files by hugo
